@@ -326,7 +326,7 @@ if __name__ == '__main__':
         print('testing phase')
         test(configs)
     elif configs.phase == 'predict':
-        print('infernece phase for room-corner relationships')
+        print('inference phase for room-corner relationships')
         predict(configs)
     else:
         raise NotImplementedError

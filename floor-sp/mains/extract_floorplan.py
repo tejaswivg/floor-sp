@@ -19,7 +19,7 @@ def run_roomwise_coorindate_descent(source_dir, save_dir, round_1):
         file_path = os.path.join(source_dir, filename)
 
         with open(file_path, 'rb') as f:
-            data = np.load(f)
+            data = np.load(f, allow_pickle=True)
         data = data.tolist()
 
         density_img = data['density_img']
@@ -32,7 +32,7 @@ def run_roomwise_coorindate_descent(source_dir, save_dir, round_1):
         else:
             round_1_dir = './results_floorplan/final/results_round_1'
             round_1_file = os.path.join(round_1_dir, '{}_recon.npy'.format(sample_idx))
-            prev_recon = np.load(round_1_file).tolist()
+            prev_recon = np.load(round_1_file, allow_pickle=True).tolist()
             prev_dp_rooms = prev_recon['dp_room_edges']
 
             graph, recon_info = solve_connections(data['rooms_info'], sample_idx, density_img, direction_hist,
@@ -67,7 +67,7 @@ def merge(data_dir, save_dir, rooms_info_dir):
     for sample_idx in range(len(os.listdir(data_dir))):
         filename = '{}_recon.npy'.format(sample_idx)
         file_path = os.path.join(data_dir, filename)
-        recon_info = np.load(file_path).tolist()
+        recon_info = np.load(file_path, allow_pickle=True).tolist()
         dp_room_edges = recon_info['dp_room_edges']
         density_img = recon_info['density_img']
         room_class_ids = recon_info['room_class_ids']
@@ -75,7 +75,7 @@ def merge(data_dir, save_dir, rooms_info_dir):
         room_labels_map = recon_info['room_labels_map']
 
         rooms_info_path = os.path.join(rooms_info_dir, '{}_rooms_info.npy'.format(sample_idx))
-        rooms_info_data = np.load(rooms_info_path).tolist()
+        rooms_info_data = np.load(rooms_info_path, allow_pickle=True).tolist()
         rooms_info = rooms_info_data['rooms_info']
 
         # filter failed rooms since they cannot be visualized
