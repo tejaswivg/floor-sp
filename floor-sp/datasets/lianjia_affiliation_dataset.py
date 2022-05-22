@@ -31,7 +31,7 @@ class LianjiaAffiliationDataset(Dataset):
             file_path = os.path.join(self.base_dir, filename)
 
             with open(file_path, 'rb') as f:
-                sample_data = np.load(f, encoding='latin1').tolist()
+                sample_data = np.load(f, encoding='latin1', allow_pickle=True).tolist()
             room_data = sample_data['room_data']
             all_corners = sample_data['all_corners']
             point_dict = sample_data['point_dict']
@@ -104,7 +104,7 @@ class LianjiaAffiliationDataset(Dataset):
             self.binning_maps.append(corner_to_bin)
 
         # set image size, will be used for normalization
-        sample = np.load(self.index_mapping[0]['path'], encoding='latin1').tolist()
+        sample = np.load(self.index_mapping[0]['path'], encoding='latin1', allow_pickle=True).tolist()
         self.im_size = sample['room_data'][0]['topview_image'].shape[0]  # pick the first room instance in the sample
 
     def __len__(self):
@@ -128,7 +128,7 @@ class LianjiaAffiliationDataset(Dataset):
         sample_path = self.index_mapping[index]['path']
         sample_index = self.index_mapping[index]['sample_index']
         with open(sample_path, 'rb') as f:
-            sample_data = np.load(f, encoding='latin1').tolist()
+            sample_data = np.load(f, encoding='latin1',allow_pickle=True).tolist()
         room_data = sample_data['room_data']
         all_corners = sample_data['all_corners']
         room_instance = room_data[self.index_mapping[index]['room_index']]

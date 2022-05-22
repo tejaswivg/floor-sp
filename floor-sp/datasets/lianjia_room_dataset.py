@@ -26,7 +26,7 @@ class LianjiaRoomDataset(Dataset):
             file_path = os.path.join(self.base_dir, filename)
 
             with open(file_path, 'rb') as f:
-                sample_data = np.load(f, encoding='latin1').tolist()
+                sample_data = np.load(f, encoding='latin1', allow_pickle=True).tolist()
             room_data = sample_data['room_data']
             num_room = len(room_data)
             for i in range(room_idx, room_idx + num_room):
@@ -38,7 +38,7 @@ class LianjiaRoomDataset(Dataset):
             room_idx += num_room
 
         # set image size, will be used for normalization
-        sample = np.load(self.index_mapping[0]['path'], encoding='latin1').tolist()
+        sample = np.load(self.index_mapping[0]['path'], encoding='latin1', allow_pickle=True).tolist()
         self.im_size = sample['room_data'][0]['topview_image'].shape[0]  # pick the first room instance in the sample
 
     def __len__(self):
@@ -47,7 +47,7 @@ class LianjiaRoomDataset(Dataset):
     def __getitem__(self, index):
         sample_path = self.index_mapping[index]['path']
         with open(sample_path, 'rb') as f:
-            sample_data = np.load(f, encoding='latin1').tolist()
+            sample_data = np.load(f, encoding='latin1', allow_pickle=True).tolist()
         room_data = sample_data['room_data'][self.index_mapping[index]['room_index']]
 
         image = np.transpose(room_data['topview_image'], [2, 0, 1])
